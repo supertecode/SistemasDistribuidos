@@ -6,16 +6,11 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 class Usuario {
-	//apagar caso de erro
 	private String id;
-	//
     private String email;
     private String nome;
     private String senha;
-    //apagar caso de erro
     private String role;
-    //
-    //apagar caso de erro
     private String token; 
 
     public Usuario(String email, String nome, String senha) {
@@ -55,7 +50,7 @@ class Usuario {
 	public void setSenha(String senha) {
 		this.senha = senha;
 	}
-//apagar caso de erro
+
     public String getToken() {
 		return token;
 	}
@@ -69,8 +64,7 @@ class Usuario {
 		this.token = "";
 	}
 
-//
-	//apagar caso de erro
+
 	public String getId() {
 		return id;
 	}

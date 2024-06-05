@@ -55,6 +55,8 @@ public class OpGenerica {
 	      private String skill;
 	      private String experience;
 	      private String id;
+	      private String industry;
+	      private String description;
 	      
 		public String getToken() {
 			return token;
@@ -97,7 +99,21 @@ public class OpGenerica {
 		}
 		public void setId(String id) {
 			this.id = id;
-		}	     
+		}
+		public String getIndustry() {
+			return industry;
+		}
+		public void setIndustry(String industry) {
+			this.industry = industry;
+		}
+		public String getDescription() {
+			return description;
+		}
+		public void setDescription(String description) {
+			this.description = description;
+		}	
+		
+		
 
 	  }
 }
