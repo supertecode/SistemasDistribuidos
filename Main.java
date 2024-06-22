@@ -9,6 +9,8 @@ package trocajsons;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import java.util.ArrayList;
+
 
 public class Main {
 
@@ -70,8 +72,17 @@ public class Main {
         	System.out.println("teste");
         }
         //gerenciadorContas.deletarUsuario("AnaClara@gmail.com ");
-        gerenciadorContas.deletarUsuario("sonic");
+        gerenciadorContas.deletarUsuario("cand");
+        System.out.println("Candidatos");
         gerenciadorContas.exibirUsuarios();
+        
+        System.out.println("Empresas");
+        empresas.exibirEmpresas();
+        empresas.deletarEmpresa("e");
+        
+        String numeroStr = "123";
+        int numeroInt = Integer.parseInt(numeroStr);
+        System.out.println("Número inteiro: " + numeroInt);
    
 	    
  }

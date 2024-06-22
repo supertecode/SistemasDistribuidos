@@ -1,13 +1,10 @@
 package trocajsons;
-import java.lang.reflect.Field;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.lang.reflect.Field;
 
-import trocajsons.OpGenericaAlt.Data;
-
-
-
-public class OpGenerica {
+public class OpGenericaAlt {
 	
 	  private String operation;
 	  private String status;
@@ -58,7 +55,7 @@ public class OpGenerica {
 	      private String email;
 	      private String password;
 	      private String name;
-	      private String skill;
+	      private ArrayList<String> skill;
 	      private String experience;
 	      private String id;
 	      private String industry;
@@ -68,6 +65,8 @@ public class OpGenerica {
 	      private ArrayList<Experiencia> skillset;
 	      private ArrayList<Vagas> jobset;
 	      private String newSkill;
+	      private String filter;
+	      private Boolean isActive;
 	      
 		public String getToken() {
 			return token;
@@ -92,12 +91,6 @@ public class OpGenerica {
 		}
 		public void setName(String name) {
 			this.name = name;
-		}
-		public String getSkill() {
-			return skill;
-		}
-		public void setSkill(String skill) {
-			this.skill = skill;
 		}
 		public String getExperience() {
 			return experience;
@@ -152,6 +145,24 @@ public class OpGenerica {
 		}
 		public void setJobset(ArrayList<Vagas> jobset) {
 			this.jobset = jobset;
+		}
+		public ArrayList<String> getSkill() {
+			return skill;
+		}
+		public void setSkill(ArrayList<String> skill) {
+			this.skill = skill;
+		}
+		public String getFilter() {
+			return filter;
+		}
+		public void setFilter(String filter) {
+			this.filter = filter;
+		}
+		public Boolean getIsActive() {
+			return isActive;
+		}
+		public void setIsActive(Boolean isActive) {
+			this.isActive = isActive;
 		}	
 		
 		
@@ -182,4 +193,6 @@ public class OpGenerica {
 
 	        return fieldsNotNull;
 	    }
+	  
 }
+

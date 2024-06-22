@@ -1,5 +1,6 @@
 package trocajsons;
 import java.io.*;
+import java.util.ArrayList;
 import java.util.*;
 
 import com.google.gson.Gson;
@@ -12,6 +13,7 @@ class Usuario {
     private String senha;
     private String role;
     private String token; 
+    private ArrayList<Experiencia> skillset;
 
     public Usuario(String email, String nome, String senha) {
         this.email = email;
@@ -19,6 +21,7 @@ class Usuario {
         this.senha = senha;
         this.role = "CANDIDATE";
         this.token = "";
+        this.skillset = new ArrayList<Experiencia>();
     }
 
     
@@ -83,7 +86,45 @@ class Usuario {
 	public void setRole(String role) {
 		this.role = role;
 	}
-//	
+	
+    //COMPETENCIAS DO USUARIO
+    public void adicionarExperiencia(String descricao, String tempo) {
+        this.skillset.add(new Experiencia(descricao, tempo));
+    }	
+    
+    public ArrayList<Experiencia> getExperiencias() {
+        return skillset;
+    }
+    
+    public boolean removerExperiencia(String skill) {
+    	for (Experiencia experiencia : skillset) {
+    		if(experiencia.getExperiencia().equals(skill)){
+    			this.skillset.remove(experiencia);
+    			return true;
+    		}
+    	}
+    	return false;
+    }
+    
+    public boolean atualizarExperiencia(String descricaoAntiga, String novaDescricao, String novoTempo) {
+        for (Experiencia experiencia : skillset) {
+            if (experiencia.getExperiencia().equals(descricaoAntiga)) {
+                experiencia.setExperiencia(novaDescricao);
+                experiencia.setTempo(novoTempo);
+                return true; // Atualização bem-sucedida
+            }
+        }
+        return false; // Experiência não encontrada
+    }
+    
+    public boolean possuiExperiencia(String descricao) {
+        for (Experiencia experiencia : skillset) {
+            if (experiencia.getExperiencia().equals(descricao)) {
+                return true; // Experiência encontrada
+            }
+        }
+        return false; // Experiência não encontrada
+    }
 	
 }
 

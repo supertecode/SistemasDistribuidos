@@ -3,6 +3,7 @@ import java.io.*;
 import java.net.*;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import java.util.ArrayList;
 
 
 public class Cliente {
@@ -252,7 +253,239 @@ public class Cliente {
         	out.println(saida);
         	System.out.println("Mensagem enviada: " + saida);
         }
+		
+		else if(userInput.equals("7")) { //cadastro de competencia
+			OpGenerica skill = new OpGenerica();
+			System.out.println("Skill:");
+			String skillUser = stdIn.readLine(); 
+			System.out.println("Experience: ");
+			String experienceUser = stdIn.readLine(); 
+			skill.setOperation("INCLUDE_SKILL");
+			skill.setToken(token);
+			skill.setData();
+			skill.getData().setSkill(skillUser);
+			skill.getData().setExperience(experienceUser);
+			Gson gson = new Gson();
+			String saida = gson.toJson(skill);
+			out.println(saida);
+        	System.out.println("Mensagem enviada: " + saida);
+		}
+		
+        else if(userInput.equals("8")) { // leitura de competencias
+        	System.out.println("Skillset(1) ou Skill(2)");
+        	String input = stdIn.readLine();
+        	OpGenerica skillset = new OpGenerica();
+        	skillset.setToken(token);
+        	skillset.setData();
+        	Gson gson = new Gson();
+        	while(!(input.equals("1") || input.equals("2"))) {
+        		System.out.println("Informe valor válido");
+        		input = stdIn.readLine();
+        	}
+        	if(input.equals("1")) {
+        		skillset.setOperation("LOOKUP_SKILLSET");
+        		String saida = gson.toJson(skillset);
+        		out.println(saida);
+        		System.out.println("Mensagem enviada: " + saida);    		
+        	}
+        	else {
+        		skillset.setOperation("LOOKUP_SKILL");
+        		System.out.println("Escreva a skill a consultar: ");
+        		String skill = stdIn.readLine();
+        		skillset.getData().setSkill(skill);
+        		String saida = gson.toJson(skillset);
+        		out.println(saida);
+        		System.out.println("Mensagem enviada: " + saida);
+        	}
+			
+		}
+		
+        else if(userInput.equals("9")) { // atualização de competencias
+        	System.out.println("Skill antiga: ");
+        	String oldSkill = stdIn.readLine(); 
+        	System.out.println("Skill nova: ");
+        	String newSkill = stdIn.readLine(); 
+        	System.out.println("Tempo de experiencia: ");
+        	String experience = stdIn.readLine(); 
+        	OpGenerica skillupdate = new OpGenerica();
+        	skillupdate.setOperation("UPDATE_SKILL");
+        	skillupdate.setToken(token);
+        	skillupdate.setData();
+        	skillupdate.getData().setSkill(oldSkill);
+        	skillupdate.getData().setNewSkill(newSkill);
+        	skillupdate.getData().setExperience(experience);
+        	Gson skill = new Gson();
+        	String saida = skill.toJson(skillupdate);
+        	out.println(saida);
+        	System.out.println("Mensagem enviada: " + saida);
+        	  	
+		}
+		
+        else if(userInput.equals("10")) { //excluir competencia
+			OpGenerica skillset = new OpGenerica();
+			System.out.println("Digite qual competência você quer excluir: ");
+			String skill = stdIn.readLine();
+			skillset.setOperation("DELETE_SKILL");
+			skillset.setToken(token);
+			skillset.setData();
+			skillset.getData().setSkill(skill);
+			Gson gson = new Gson();
+			String saida = gson.toJson(skillset);
+			out.println(saida);
+        	System.out.println("Mensagem enviada: " + saida);
+		}
+		
+        else if(userInput.equals("11")) { //cadastrar vagas no servidor
+        	System.out.println("Skill: ");
+        	String skill = stdIn.readLine();
+        	System.out.println("Experience: ");
+        	String experience = stdIn.readLine();
+			OpGenerica vaga = new OpGenerica();
+			vaga.setOperation("INCLUDE_JOB");
+			vaga.setToken(token);
+			vaga.setData();
+			vaga.getData().setSkill(skill);
+			vaga.getData().setExperience(experience);
+			Gson gson = new Gson();
+			String saida = gson.toJson(vaga);
+			out.println(saida);
+        	System.out.println("Mensagem enviada: " + saida);
+		}
+		
+        else if(userInput.equals("12")) { //atualizar dados de vaga
+        	System.out.println("ID da vaga a ser alterada: ");
+        	String id = stdIn.readLine();
+        	System.out.println("Skill: ");
+        	String skill = stdIn.readLine();
+        	System.out.println("Experience: ");
+        	String experience = stdIn.readLine();
+			OpGenerica vaga = new OpGenerica();
+			vaga.setOperation("UPDATE_JOB");
+			vaga.setToken(token);
+			vaga.setData();
+			vaga.getData().setId(id);
+			vaga.getData().setSkill(skill);
+			vaga.getData().setExperience(experience);
+			Gson gson = new Gson();
+			String saida = gson.toJson(vaga);
+			out.println(saida);
+        	System.out.println("Mensagem enviada: " + saida);
+		}
         
+        else if(userInput.equals("13")) { //lê dados das próprias vagas
+        	System.out.println("Todas as vagas(1) ou uma vaga(2)?");
+        	String input = stdIn.readLine();
+        	OpGenerica jobset = new OpGenerica();
+        	jobset.setToken(token);
+        	Gson gson = new Gson();
+        	while(!(input.equals("1") || input.equals("2"))) {
+        		System.out.println("Informe valor válido");
+        		input = stdIn.readLine();
+        	}
+        	if(input.equals("1")){
+        		jobset.setOperation("LOOKUP_JOBSET");
+        		jobset.setData();
+        	}
+        	else {
+        		System.out.println("Informe o id da vaga que deseja consultar: ");
+        		String idVaga = stdIn.readLine();
+        		jobset.setOperation("LOOKUP_JOB");
+        		jobset.setData();
+        		jobset.getData().setId(idVaga);
+        	}
+        	String saida = gson.toJson(jobset);
+        	out.println(saida);
+        	System.out.println("Mensagem enviada: " + saida);      		
+		}
+		
+        else if(userInput.equals("14")) { //Envia pedido de exclusão de vagas
+    		System.out.println("Digite o ID da vaga que será excluída: ");
+			String id = stdIn.readLine();
+			OpGenerica vaga = new OpGenerica();
+			vaga.setOperation("DELETE_JOB");
+			vaga.setToken(token);
+			vaga.setData();
+			vaga.getData().setId(id);
+			Gson gson = new Gson();
+			String saida = gson.toJson(vaga);
+			out.println(saida);
+        	System.out.println("Mensagem enviada: " + saida);
+		}
+		
+        else if(userInput.equals("15")) {
+        	System.out.println("Como pretende realizar a pesquisa de vagas?");
+        	System.out.println("Somente por skill(1) ; somente por Experience(2) ; por skill e experience(3)");
+        	String inputUser = stdIn.readLine();
+        	while(!(inputUser.equals("1")||inputUser.equals("2")||inputUser.equals("3"))){
+        		System.out.println("Digite um valor válido: ");
+        	    inputUser = stdIn.readLine();
+        	}
+        	OpGenericaAlt search = new OpGenericaAlt();
+        	search.setOperation("SEARCH_JOB");
+        	ArrayList<String> skills = new ArrayList<>();
+        	if(inputUser.equals("1")) {
+        		boolean adicionar = true;
+        		while(adicionar) {
+        			System.out.println("Adicione uma skill:");
+        			String skill = stdIn.readLine();
+        			skills.add(skill);
+        			System.out.println("deseja adicionar mais alguma skill? sim(1) nao(2)");
+        			String maisSkill = stdIn.readLine();
+        			if(maisSkill.equals("1")) {
+        				adicionar = true;
+        			}
+        			else  {
+        				adicionar = false;
+        			}		
+        		}        		
+        		search.setToken(token);
+        		search.setData();
+        		search.getData().setSkill(skills);        		
+        	}
+        	if(inputUser.equals("2")) {
+        		System.out.println("Digite seu Experience: ");
+        		String experience = stdIn.readLine();
+        		search.setToken(token);
+        		search.setData();
+        		search.getData().setExperience(experience);
+        	}
+        	if(inputUser.equals("3")) {
+        		boolean adicionar = true;
+        		while(adicionar) {
+        			System.out.println("Adicione uma skill:");
+        			String skill = stdIn.readLine();
+        			skills.add(skill);
+        			System.out.println("deseja adicionar mais alguma skill? sim(1) nao(2)");
+        			String maisSkill = stdIn.readLine();
+        			if(maisSkill.equals("1")) {
+        				adicionar = true;
+        			}
+        			else  {
+        				adicionar = false;
+        			}		
+        		}
+        		System.out.println("Filtrar por E(1) ou OU(2)?");
+        		String opLogica = stdIn.readLine();
+        		if(opLogica.equals("1")) {
+        			opLogica = "AND";
+        		}
+        		else {
+        			opLogica = "OR";
+        		}
+        		System.out.println("Digite seu Experience: ");
+        		String experience = stdIn.readLine();
+        		search.setToken(token);
+        		search.setData();
+        		search.getData().setSkill(skills);
+        		search.getData().setExperience(experience);
+        		search.getData().setFilter(opLogica);
+        	}
+        	Gson gson = new Gson();
+        	String saida = gson.toJson(search);
+        	out.println(saida);
+        	System.out.println("Mensagem enviada: " + saida);
+        }
+		
 		else {
 			System.out.println("Insira um valor valido");
 			continue;
@@ -396,6 +629,16 @@ public class Cliente {
             	}
             }
             
+            if(operacaoRecebida.getOperation().equals("INCLUDE_SKILL")) {
+            	if(operacaoRecebida.getStatus().equals("SUCCESS")) {
+            		System.out.println("Skill cadastrada com sucesso");
+            	}
+            	else {
+            		System.out.println("token invalido ou skill ja cadastrado");
+            	}
+            }
+            
+            
             if(operacaoRecebida.getOperation().equals("NAO_EXISTE")) {
                     System.out.println("Operacao Invalida recebida do servidor: " + operacaoRecebida.getOperation());
             }
@@ -410,6 +653,20 @@ public class Cliente {
 		    System.out.println("Exclusão de conta: 4.");
 		    System.out.println("Sair: 5.");
 		    System.out.println("Visualizar informações da conta: 6");
+		    if(tipoUsuario.equals("CANDIDATE")){
+		    	System.out.println("Cadastrar habilidade: 7");
+		    	System.out.println("Leitura de competencias e habilidades: 8");
+		    	System.out.println("Atualizar habilidade do usuario: 9");
+		    	System.out.println("Excluir habilidade do usuario: 10");
+		    	System.out.println("Buscar vaga: 15");
+		    }
+		    if(tipoUsuario.equals("RECRUITER")){
+		    	System.out.println("Cadastrar vagas no servidor: 11");
+		    	System.out.println("Atualizar dados de vaga no servidor: 12");
+		    	System.out.println("Ver vagas disponibilizadas: 13");
+		    	System.out.println("Excluir vaga cadastradas no servidor: 14");
+		    }
+		    
 	        
 	   }
 

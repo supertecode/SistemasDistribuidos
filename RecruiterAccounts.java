@@ -13,11 +13,10 @@ class Empresa {
     private String industry;
     private String description;
     private String role;
-    private String token; 
+    private String token;
+    private ArrayList<Vagas> jobset;
 
   
-
-    
     public Empresa(String email, String nome, String senha, String industry, String description) {
 		this.email = email;
 		this.nome = nome;
@@ -26,6 +25,7 @@ class Empresa {
 		this.description = description;
 		this.role = "RECRUITER";
 		this.token = "";
+		this.jobset = new ArrayList<Vagas>();
 	}
 
 	@Override
@@ -105,11 +105,75 @@ class Empresa {
 	public void setDescription(String description) {
 		this.description = description;
 	}
+
+	public ArrayList<Vagas> getJobset() {
+		return jobset;
+	}
+
+	public void setJobset(ArrayList<Vagas> jobset) {
+		this.jobset = jobset;
+	}
 	
+	//Métodos para manipulação das vagas	
 	
-//	
+	 private String gerarIdUnico() {
+	        int id = 1;
+	        boolean idUnico;
+	        do {
+	            idUnico = true;
+	            for (Vagas vaga : jobset) {
+	                if (vaga.getId().equals(String.valueOf(id))) {
+	                    id++;
+	                    idUnico = false;
+	                    break;
+	                }
+	            }
+	        } while (!idUnico);
+	        return String.valueOf(id);
+	    }
+	 
+    public void adicionarVaga(String descricao, String tempo) {
+    	String id = gerarIdUnico();
+        this.jobset.add(new Vagas(descricao, tempo, id));
+        //preciso fazer a lógica para incluir o id
+    }	
+    
+    public ArrayList<Vagas> getVagas() {
+        return jobset;
+    }
+    
+    public boolean removerVaga(String id) {
+    	for (Vagas vaga : jobset) {
+    		if(vaga.getId().equals(id)){
+    			this.jobset.remove(vaga);
+    			return true;
+    		}
+    	}
+    	return false;
+    }
+    
+    public boolean atualizarVaga(String id, String novaDescricao, String novoTempo) {
+        for (Vagas vaga : jobset) {
+            if (vaga.getId().equals(id)) {
+            	vaga.setSkill(novaDescricao);
+            	vaga.setExperience(novoTempo);
+                return true; // Atualização bem-sucedida
+            }
+        }
+        return false; // Experiência não encontrada
+    }
+    
+    public boolean possuiVaga(String descricao) {
+        for (Vagas vaga : jobset) {
+            if (vaga.getSkill().equals(descricao)) {
+                return true; // Experiência encontrada
+            }
+        }
+        return false; // Experiência não encontrada
+    }
 	
 }
+
 
 public class RecruiterAccounts {
     private static final String ARQUIVO_EMPRESAS = "accountsRecruiter.json";
@@ -190,6 +254,22 @@ public class RecruiterAccounts {
             bw.write(json);
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+    
+    public static List<Empresa> retornarEmpresas() {
+        try (BufferedReader br = new BufferedReader(new FileReader(ARQUIVO_EMPRESAS))) {
+            StringBuilder jsonBuilder = new StringBuilder();
+            String line;
+            while ((line = br.readLine()) != null) {
+                jsonBuilder.append(line);
+            }
+            TypeToken<List<Empresa>> typeToken = new TypeToken<List<Empresa>>() {};
+            return new Gson().fromJson(jsonBuilder.toString(), typeToken.getType());
+        } catch (IOException e) {
+            // Se o arquivo não existir ou estiver vazio, retorna null ou uma lista vazia
+            e.printStackTrace(); // Para facilitar o debug
+            return null; // Ou return Collections.emptyList();
         }
     }
 }
